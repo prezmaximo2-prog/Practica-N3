@@ -1,4 +1,3 @@
-
 estados = 0
 total_alfabeto = 0
 transiciones = 0
@@ -34,7 +33,6 @@ try:
         total_verificar = int(datos[5])
         
         alfabeto = lineas[1].split()
-
         estado_aceptacion = list(map(int, lineas[2].split()))
         
         transicion1 = lineas[3].split()
@@ -49,10 +47,29 @@ try:
         verificar3 = lineas[11].strip()
         verificar4 = lineas[12].strip()
 
- 
-    print(f"Estado Inicial: {estado_inicial}")
-    print(f"Transición 1: {transicion1}")
-    print(f"Cadena 1 a verificar: {verificar1}")
+    lista_transiciones = [transicion1, transicion2, transicion3, transicion4, transicion5, transicion6]
+    cadenas_evaluar = [verificar1, verificar2, verificar3, verificar4]
+
+    for cadena in cadenas_evaluar:
+        estado_actual = estado_inicial
+        valida = True
+        
+        for simbolo in cadena:
+            encontrado = False
+            for t in lista_transiciones:
+                if int(t[0]) == estado_actual and t[1] == simbolo:
+                    estado_actual = int(t[2])
+                    encontrado = True
+                    break
+            
+            if not encontrado:
+                valida = False
+                break
+        
+        if valida and estado_actual in estado_aceptacion:
+            print("ACEPTADA")
+        else:
+            print("RECHAZADA")
 
 except FileNotFoundError:
     print('No se encontró el archivo')
